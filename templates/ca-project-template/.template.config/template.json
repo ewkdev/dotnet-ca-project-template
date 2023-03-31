@@ -1,0 +1,9 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "Ewkdev @ github",
+    "classifications": [ "Common" ],
+    "identity": "Ewkdev.CSharp.CleanArchitectureProjectTemplate",
+    "name": "Clean Architecture Web-Project Template",
+    "shortName": "ca-webapi",
+    "sourceName": "CAWebProject"
+  }
