@@ -1,4 +1,3 @@
-using System.Collections.Immutable;
 using Asp.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +13,8 @@ public static class DependencyInjection
             options.AssumeDefaultVersionWhenUnspecified = true;
             options.ApiVersionReader = new UrlSegmentApiVersionReader();
         });
+
+        services.AddProblemDetails();
         
         return services;
     }

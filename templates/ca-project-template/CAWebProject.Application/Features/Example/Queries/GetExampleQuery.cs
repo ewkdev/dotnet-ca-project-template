@@ -4,6 +4,7 @@ using MediatR;
 
 namespace CAWebProject.Application.Features.Example.Queries;
 
-public class GetExamplesQuery : IRequest<Result<ExampleCollectionDto>>
+public class GetExampleQuery : IRequest<Result<ExampleDto>>
 {
+    public int Id { get; set; }
 }
