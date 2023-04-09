@@ -11,12 +11,13 @@ public static class DependencyInjection
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         var applicationAssembly = typeof(DependencyInjection).Assembly;
-
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ExceptionHandlerPipelineBehavior<,>));
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
         
         services.AddMediatR(cfg =>
-            cfg.RegisterServicesFromAssembly(applicationAssembly));
+        {
+            cfg.RegisterServicesFromAssembly(applicationAssembly);
+            cfg.AddOpenBehavior(typeof(ExceptionHandlerPipelineBehavior<,>));
+            cfg.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
+        });
 
         services.AddValidatorsFromAssembly(applicationAssembly,
             includeInternalTypes: true);
