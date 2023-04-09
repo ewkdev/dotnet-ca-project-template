@@ -37,8 +37,9 @@ var app = builder.Build();
     app.UseSerilogRequestLogging();
 
     app.UseHttpsRedirection();
-    
-    app.AddExampleEndpoints(apiVersionSet);
+
+    app.NewVersionedApi("Example Api")
+        .AddExampleEndpoints();
 
     app.Run();
 }
