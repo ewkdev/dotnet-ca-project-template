@@ -6,7 +6,7 @@ namespace CAWebProject.Application.Behaviors;
 
 public class ExceptionHandlerPipelineBehavior<TRequest,TResponse> : IPipelineBehavior<TRequest, TResponse>
 where TRequest : IRequest<TResponse>
-where TResponse : Result
+where TResponse : ResultBase
 {
     private readonly ILogger<ExceptionHandlerPipelineBehavior<TRequest, TResponse>> _logger;
 
@@ -29,7 +29,7 @@ where TResponse : Result
             {ExceptionStackTrace}", 
                 ex.Message, ex.StackTrace);
 
-            return (Result.Fail("Unhandled Exception occured while handling this request.") as TResponse)!;
+            return (dynamic) Result.Fail("Unhandled Exception occured while handling this request.");
         }
     }
 }

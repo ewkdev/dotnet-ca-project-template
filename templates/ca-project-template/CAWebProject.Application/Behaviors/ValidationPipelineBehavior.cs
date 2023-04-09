@@ -9,7 +9,7 @@ namespace CAWebProject.Application.Behaviors;
 public class ValidationPipelineBehavior<TRequest,TResponse> 
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
-    where TResponse : Result
+    where TResponse : ResultBase
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
     private readonly ILogger<ValidationPipelineBehavior<TRequest, TResponse>> _logger;
@@ -48,6 +48,6 @@ public class ValidationPipelineBehavior<TRequest,TResponse>
         
         errors.ForEach(error => result.WithError($"{error.PropertyName}:{error.ErrorMessage}"));
 
-        return (result as TResponse)!;
+        return (dynamic) result;
     }
 }
