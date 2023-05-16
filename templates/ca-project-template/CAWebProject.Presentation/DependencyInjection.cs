@@ -1,4 +1,5 @@
-using Asp.Versioning;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CAWebProject.Presentation;
@@ -7,11 +8,20 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddPresentation(this IServiceCollection services)
     {
+        services.AddControllers();
+        
         services.AddApiVersioning(options =>
         {
-            options.DefaultApiVersion = new ApiVersion(1);
             options.AssumeDefaultVersionWhenUnspecified = true;
+            options.DefaultApiVersion = new ApiVersion(1, 0);
+            options.ReportApiVersions = true;
             options.ApiVersionReader = new UrlSegmentApiVersionReader();
+        });
+
+        services.AddVersionedApiExplorer(opts =>
+        {
+            opts.GroupNameFormat = "'v'VVV";
+            opts.SubstituteApiVersionInUrl = true;
         });
 
         services.AddProblemDetails();

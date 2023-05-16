@@ -12,7 +12,7 @@ public class CreateExampleCommandHandler : IRequestHandler<CreateExampleCommand,
         await Task.CompletedTask;
         
         var mapper = new ExampleMapper();
-        var example = new Project.Domain.Example.Example { Id = 456, Topic = $"I am a Domain {request.Topic} Topic", Content = request.Content};
+        var example = new Project.Domain.Example.Example { Id = Guid.NewGuid(), Topic = $"I am a Domain {request.Topic} Topic", Content = request.Content};
         return Result.Ok(mapper.ToDto(example));
     }
 }

@@ -5,5 +5,5 @@ namespace CAWebProject.Application.Features.Example.Commands;
 
 public class DeleteExampleCommand : IRequest<Result>
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 }

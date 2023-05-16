@@ -1,15 +1,27 @@
 ﻿using CAWebProject.Application.Features.Example.Models;
 using FluentResults;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace CAWebProject.Application.Features.Example.Queries;
 
 public class GetExampleQueryHandler : IRequestHandler<GetExampleQuery ,Result<ExampleDto>>
 {
-    public async Task<Result<ExampleDto>> Handle(GetExampleQuery request, CancellationToken cancellationToken)
+    private readonly ILogger<GetExampleQueryHandler> _logger;
+
+    public GetExampleQueryHandler(ILogger<GetExampleQueryHandler> logger)
+    {
+        _logger = logger;
+    }
+
+    public async Task<Result<ExampleDto>> Handle(
+        GetExampleQuery request,
+        CancellationToken cancellationToken)
     {
         //Mute compiler warning until a proper impl is provided
         await Task.CompletedTask;
+        
+        _logger.LogInformation("Retrieving Example with id '{ExampleId}' from storage", request.Id);
         
         var example = new ExampleDto()
         {
