@@ -17,8 +17,7 @@ public class LogEnrichmentPipelineBehaviour<TRequest,TResponse> : IPipelineBehav
     private readonly ILogger<LogEnrichmentPipelineBehaviour<TRequest, TResponse>> _logger;
     private readonly IDiagnosticContext _diagnosticContext;
     private readonly IHttpContextAccessor _httpContextAccessor;
-
-
+    
     public LogEnrichmentPipelineBehaviour(
         ILogger<LogEnrichmentPipelineBehaviour<TRequest, TResponse>> logger,
         IHttpContextAccessor httpContextAccessor,

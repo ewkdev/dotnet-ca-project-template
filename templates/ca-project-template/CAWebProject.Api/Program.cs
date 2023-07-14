@@ -1,17 +1,15 @@
 using CAWebProject.Application;
 using CAWebProject.Infrastructure;
 using CAWebProject.Presentation;
-using CAWebProject.Presentation.Example;
-using CAWebProject.Presentation.Example.V1;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
+
 using Serilog;
 using Serilog.Events;
+using Serilog.Sinks.SystemConsole.Themes;
 
 // Setup a default logger to allow for logging during ASP.Net Core startup & init
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-    .Enrich.FromLogContext()
-    .WriteTo.Console()
+    .WriteTo.Console(theme: ConsoleTheme.None)
     .CreateBootstrapLogger();
 
 try
@@ -41,11 +39,16 @@ try
 
     var app = builder.Build();
     {
-        app.UseSerilogRequestLogging(cfg =>
+
+        if (app.Configuration.GetValue<bool>("Serilog:UseRequestLogging"))
         {
-            cfg.MessageTemplate =
-                "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
-        });
+            app.UseSerilogRequestLogging(cfg =>
+            {
+                cfg.MessageTemplate =
+                    "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
+            });
+        }
+        
         app.UseHttpsRedirection();
         
         if (app.Environment.IsDevelopment())
