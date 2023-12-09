@@ -25,21 +25,21 @@ public class ExampleController : BaseController
         _logger = logger;
     }
 
-    [HttpGet("/{id:guid}")]
+    [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetExampleByIdAsync(Guid id)
     {
         var result = await _sender.Send(new GetExampleQuery { Id = id });
         return result.IsSuccess ? Ok(_mapper.ToResponse(result.Value)) : Problem(result.Errors);
     }
 
-    [HttpGet("/")]
+    [HttpGet]
     public async Task<IActionResult> GetExamplesAsync()
     {
         var result = await _sender.Send(new GetExamplesQuery());
         return result.IsSuccess ? Ok(_mapper.ToResponse(result.Value)) : Problem(result.Errors);
     }
 
-    [HttpPost("/")]
+    [HttpPost]
     public async Task<IActionResult> CreateExampleAsync(CreateExampleRequest req)
     {
         var result = await _sender.Send(_mapper.ToCommand(req));
@@ -52,7 +52,7 @@ public class ExampleController : BaseController
             : Problem(result.Errors);
     }
 
-    [HttpDelete("/{id:guid}")]
+    [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteExampleAsync(Guid id)
     {
         var result = await _sender.Send(new DeleteExampleCommand { Id = id });
