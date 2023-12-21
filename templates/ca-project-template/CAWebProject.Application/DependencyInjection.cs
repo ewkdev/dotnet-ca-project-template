@@ -20,7 +20,6 @@ public static class DependencyInjection
         {
             cfg.RegisterServicesFromAssembly(applicationAssembly);
             cfg.AddOpenBehavior(typeof(ExceptionHandlerPipelineBehavior<,>));
-            cfg.AddOpenBehavior(typeof(LogEnrichmentPipelineBehaviour<,>));
             cfg.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
         });
 

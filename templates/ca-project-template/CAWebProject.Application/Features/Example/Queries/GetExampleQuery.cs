@@ -6,5 +6,5 @@ namespace CAWebProject.Application.Features.Example.Queries;
 
 public class GetExampleQuery : IRequest<Result<ExampleDto>>
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 }

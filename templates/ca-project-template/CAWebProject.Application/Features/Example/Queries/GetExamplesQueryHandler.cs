@@ -16,19 +16,20 @@ public class GetExamplesQueryHandler : IRequestHandler<GetExamplesQuery, Result<
             Total = 2,
             Offset = 0,
             Limit = 25,
-            Items = new()
-            {
-                new ExampleDto()
+            Items =
+            [
+                new ExampleDto
                 {
                     Topic = "Im an example topic!",
                     Content = "Lorem ipsum"
                 },
-                new ExampleDto()
+
+                new ExampleDto
                 {
                     Topic = "Im the second example topic!",
                     Content = "Muspi merol"
                 }
-            }
+            ]
         };
 
         return Result.Ok(collection);

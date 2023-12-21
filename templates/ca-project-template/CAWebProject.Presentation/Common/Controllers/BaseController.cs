@@ -19,10 +19,10 @@ public abstract class BaseController : ControllerBase
 
         return errorType switch
         {
-            ApplicationErrorType.INTERNAL => StatusCodes.Status500InternalServerError,
-            ApplicationErrorType.CONFLICT => StatusCodes.Status409Conflict,
-            ApplicationErrorType.NOT_FOUND => StatusCodes.Status404NotFound,
-            ApplicationErrorType.VALIDATION => StatusCodes.Status400BadRequest,
+            ApplicationErrorType.Internal => StatusCodes.Status500InternalServerError,
+            ApplicationErrorType.Conflict => StatusCodes.Status409Conflict,
+            ApplicationErrorType.NotFound => StatusCodes.Status404NotFound,
+            ApplicationErrorType.Validation => StatusCodes.Status400BadRequest,
             _ => StatusCodes.Status500InternalServerError
         };
 

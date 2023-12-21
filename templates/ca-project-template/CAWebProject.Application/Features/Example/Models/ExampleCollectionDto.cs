@@ -2,8 +2,8 @@
 
 public class ExampleCollectionDto
 {
-    public int Total { get; set; }
-    public int Limit { get; set; }
-    public int Offset { get; set; }
-    public List<ExampleDto> Items { get; set; } = new();
+    public int Total { get; init; }
+    public int Limit { get; init; }
+    public int Offset { get; init; }
+    public List<ExampleDto> Items { get; init; } = [];
 }

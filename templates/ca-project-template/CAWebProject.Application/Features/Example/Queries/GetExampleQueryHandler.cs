@@ -5,15 +5,9 @@ using Microsoft.Extensions.Logging;
 
 namespace CAWebProject.Application.Features.Example.Queries;
 
-public class GetExampleQueryHandler : IRequestHandler<GetExampleQuery ,Result<ExampleDto>>
+public class GetExampleQueryHandler(ILogger<GetExampleQueryHandler> logger)
+    : IRequestHandler<GetExampleQuery, Result<ExampleDto>>
 {
-    private readonly ILogger<GetExampleQueryHandler> _logger;
-
-    public GetExampleQueryHandler(ILogger<GetExampleQueryHandler> logger)
-    {
-        _logger = logger;
-    }
-
     public async Task<Result<ExampleDto>> Handle(
         GetExampleQuery request,
         CancellationToken cancellationToken)
@@ -21,7 +15,7 @@ public class GetExampleQueryHandler : IRequestHandler<GetExampleQuery ,Result<Ex
         //Mute compiler warning until a proper impl is provided
         await Task.CompletedTask;
         
-        _logger.LogInformation("Retrieving Example with id '{ExampleId}' from storage", request.Id);
+        logger.LogInformation("Retrieving Example with id '{ExampleId}' from storage", request.Id);
         
         var example = new ExampleDto()
         {

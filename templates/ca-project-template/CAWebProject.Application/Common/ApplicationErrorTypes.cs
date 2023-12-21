@@ -2,8 +2,8 @@
 
 public enum ApplicationErrorType
 {
-    INTERNAL = 0,
-    NOT_FOUND = 1,
-    CONFLICT = 2,
-    VALIDATION = 3
+    Internal = 1,
+    NotFound = 2,
+    Conflict = 3,
+    Validation = 4
 }

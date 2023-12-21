@@ -1,4 +1,5 @@
 using CAWebProject.Application;
+using CAWebProject.Application.Middleware;
 using CAWebProject.Infrastructure;
 using CAWebProject.Presentation;
 
@@ -50,6 +51,7 @@ try
         }
         
         app.UseHttpsRedirection();
+        app.UseLogTraceIdEnricher();
         
         if (app.Environment.IsDevelopment())
         {
