@@ -1,4 +1,3 @@
-using CAWebProject.Api.Swagger;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Options;
@@ -26,13 +25,6 @@ public static class DependencyInjection
             opts.SubstituteApiVersionInUrl = true;
         });
         
-        services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-        services.AddSwaggerGen(options =>
-        {
-            // Add a custom operation filter which sets default values
-            options.OperationFilter<SwaggerDefaultValues>();
-        });
-
         services.AddProblemDetails();
         
         return services;

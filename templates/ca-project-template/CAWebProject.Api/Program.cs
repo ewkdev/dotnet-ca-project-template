@@ -1,8 +1,9 @@
 using CAWebProject.Api;
+using CAWebProject.Api.Swagger;
 using CAWebProject.Application;
 using CAWebProject.Application.Middleware;
 using CAWebProject.Infrastructure;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
+
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -54,24 +55,9 @@ try
         
         if (app.Environment.IsDevelopment())
         {
-            app.UseSwagger();
-            
-            var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
-            
-            app.UseSwaggerUI(options =>
-            {
-                var descriptions = apiVersionDescriptionProvider.ApiVersionDescriptions;
-
-                // Build a swagger endpoint for each discovered API version
-                foreach (var description in descriptions)
-                {
-                    var url = $"/swagger/{description.GroupName}/swagger.json";
-                    var name = description.GroupName.ToUpperInvariant();
-                    options.SwaggerEndpoint(url, name);
-                }
-            });
+            app.UseSwaggerDocumentation();
         }
-
+        
         app.MapControllers();
 
         Log.Information("Application startup complete @ {StartupCompleteTime}",

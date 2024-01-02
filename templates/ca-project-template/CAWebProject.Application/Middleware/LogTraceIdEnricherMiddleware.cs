@@ -20,7 +20,7 @@ public class LogTraceIdEnricherMiddleware(RequestDelegate next)
     }
 }
 
-public static class RequestCultureMiddlewareExtensions
+public static class LogTraceIdEnricherMiddlewareExtensions
 {
     public static IApplicationBuilder UseLogTraceIdEnricher(
         this IApplicationBuilder builder)
