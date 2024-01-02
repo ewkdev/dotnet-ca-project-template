@@ -17,7 +17,7 @@
     "/v2/examples/{id}": {
       "get": {
         "tags": [
-          "ExampleControllerV"
+          "Examples"
         ],
         "parameters": [
           {
@@ -38,7 +38,7 @@
       },
       "delete": {
         "tags": [
-          "ExampleControllerV"
+          "Examples"
         ],
         "parameters": [
           {
@@ -61,7 +61,7 @@
     "/v2/examples": {
       "get": {
         "tags": [
-          "ExampleControllerV"
+          "Examples"
         ],
         "responses": {
           "200": {
@@ -71,7 +71,7 @@
       },
       "post": {
         "tags": [
-          "ExampleControllerV"
+          "Examples"
         ],
         "requestBody": {
           "content": {
