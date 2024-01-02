@@ -1,48 +1,38 @@
-﻿using CAWebProject.Application.Features.Example.Commands;
+﻿using CAWebProject.Api.Common.Controllers;
+using CAWebProject.Api.Example.V1.Models;
+using CAWebProject.Application.Features.Example.Commands;
 using CAWebProject.Application.Features.Example.Queries;
-using CAWebProject.Presentation.Common.Controllers;
-using CAWebProject.Presentation.Example.V1.Models;
-
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
-namespace CAWebProject.Presentation.Example.V1;
+namespace CAWebProject.Api.Example.V2;
 
 [ApiController]
 [Route("v{version:apiVersion}/examples")]
 [Produces("application/json")]
-[ApiVersion("1.0")]
-public class ExampleController : BaseController
+[ApiVersion("2.0")]
+public class ExampleControllerV2(ISender mediator, ILogger<ExampleControllerV2> logger) : BaseController
 {
-    private readonly ISender _sender;
     private readonly ExampleMapper _mapper = new();
-    private readonly ILogger _logger;
-    
-    public ExampleController(ISender mediator, ILogger<ExampleController> logger)
-    {
-        _sender = mediator;
-        _logger = logger;
-    }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetExampleByIdAsync(Guid id)
     {
-        var result = await _sender.Send(new GetExampleQuery { Id = id });
+        var result = await mediator.Send(new GetExampleQuery { Id = id });
         return result.IsSuccess ? Ok(_mapper.ToResponse(result.Value)) : Problem(result.Errors);
     }
-
+    
     [HttpGet]
     public async Task<IActionResult> GetExamplesAsync()
     {
-        var result = await _sender.Send(new GetExamplesQuery());
+        var result = await mediator.Send(new GetExamplesQuery());
         return result.IsSuccess ? Ok(_mapper.ToResponse(result.Value)) : Problem(result.Errors);
     }
-
+    
     [HttpPost]
     public async Task<IActionResult> CreateExampleAsync(CreateExampleRequest req)
     {
-        var result = await _sender.Send(_mapper.ToCommand(req));
+        var result = await mediator.Send(_mapper.ToCommand(req));
 
         return result.IsSuccess
             ? CreatedAtRoute(
@@ -51,11 +41,11 @@ public class ExampleController : BaseController
                 _mapper.ToResponse(result.Value))
             : Problem(result.Errors);
     }
-
+    
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteExampleAsync(Guid id)
     {
-        var result = await _sender.Send(new DeleteExampleCommand { Id = id });
+        var result = await mediator.Send(new DeleteExampleCommand { Id = id });
         return result.IsSuccess ? NoContent() : Problem(result.Errors);
     }
 }

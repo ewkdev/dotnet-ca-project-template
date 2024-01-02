@@ -1,9 +1,9 @@
-﻿using CAWebProject.Application.Features.Example.Commands;
+﻿using CAWebProject.Api.Example.V1.Models;
+using CAWebProject.Application.Features.Example.Commands;
 using CAWebProject.Application.Features.Example.Models;
-using CAWebProject.Presentation.Example.V1.Models;
 using Riok.Mapperly.Abstractions;
 
-namespace CAWebProject.Presentation.Example.V1;
+namespace CAWebProject.Api.Example.V2;
 
 [Mapper]
 public partial class ExampleMapper

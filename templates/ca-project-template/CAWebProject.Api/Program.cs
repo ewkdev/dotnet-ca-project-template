@@ -1,8 +1,8 @@
+using CAWebProject.Api;
 using CAWebProject.Application;
 using CAWebProject.Application.Middleware;
 using CAWebProject.Infrastructure;
-using CAWebProject.Presentation;
-
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -26,21 +26,20 @@ try
                 .ReadFrom.Services(services)
                 .Enrich.FromLogContext()
         );
-        
+
         builder.Services.AddMvcCore();
-        
+
         builder.Services
             .AddApplication()
             .AddInfrastructure()
             .AddPresentation();
-        
+
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
     }
 
     var app = builder.Build();
     {
-
         if (app.Configuration.GetValue<bool>("Serilog:UseRequestLogging"))
         {
             app.UseSerilogRequestLogging(cfg =>
@@ -49,18 +48,32 @@ try
                     "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
             });
         }
-        
+
         app.UseHttpsRedirection();
         app.UseLogTraceIdEnricher();
         
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
-            app.UseSwaggerUI();
+            
+            var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+            
+            app.UseSwaggerUI(options =>
+            {
+                var descriptions = apiVersionDescriptionProvider.ApiVersionDescriptions;
+
+                // Build a swagger endpoint for each discovered API version
+                foreach (var description in descriptions)
+                {
+                    var url = $"/swagger/{description.GroupName}/swagger.json";
+                    var name = description.GroupName.ToUpperInvariant();
+                    options.SwaggerEndpoint(url, name);
+                }
+            });
         }
 
         app.MapControllers();
-        
+
         Log.Information("Application startup complete @ {StartupCompleteTime}",
             DateTime.UtcNow.ToString("O"));
 

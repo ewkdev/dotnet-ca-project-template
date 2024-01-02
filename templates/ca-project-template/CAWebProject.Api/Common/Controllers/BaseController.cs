@@ -1,9 +1,8 @@
 ﻿using CAWebProject.Application.Common;
 using FluentResults;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CAWebProject.Presentation.Common.Controllers;
+namespace CAWebProject.Api.Common.Controllers;
 
 [Controller]
 public abstract class BaseController : ControllerBase

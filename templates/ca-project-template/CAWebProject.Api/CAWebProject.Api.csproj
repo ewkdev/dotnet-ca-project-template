@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Asp.Versioning.Http" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.1.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
     <PackageReference Include="Serilog.Expressions" Version="3.4.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
@@ -16,7 +17,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CAWebProject.Application\CAWebProject.Application.csproj" />
     <ProjectReference Include="..\CAWebProject.Infrastructure\CAWebProject.Infrastructure.csproj" />
-    <ProjectReference Include="..\CAWebProject.Presentation\CAWebProject.Presentation.csproj" />
   </ItemGroup>
 
 </Project>
