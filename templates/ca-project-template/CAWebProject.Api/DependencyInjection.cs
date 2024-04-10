@@ -1,7 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Versioning;
-using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using Asp.Versioning;
 
 namespace CAWebProject.Api;
 
@@ -17,9 +14,8 @@ public static class DependencyInjection
             options.DefaultApiVersion = new ApiVersion(1, 0);
             options.ReportApiVersions = true;
             options.ApiVersionReader = new UrlSegmentApiVersionReader();
-        });
-
-        services.AddVersionedApiExplorer(opts =>
+        })
+        .AddApiExplorer(opts =>
         {
             opts.GroupNameFormat = "'v'VVV";
             opts.SubstituteApiVersionInUrl = true;

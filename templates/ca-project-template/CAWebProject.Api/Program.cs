@@ -21,6 +21,12 @@ try
 
     var builder = WebApplication.CreateBuilder(args);
     {
+        //don't expose tech stack details to clients
+        builder.WebHost.UseKestrel(opts =>
+        {
+            opts.AddServerHeader = false;
+        });
+        
         builder.Host.UseSerilog((ctx, services, loggerConfig) =>
             loggerConfig
                 .ReadFrom.Configuration(ctx.Configuration)
@@ -28,7 +34,11 @@ try
                 .Enrich.FromLogContext()
         );
 
-        builder.Services.AddMvcCore();
+        // allow nameof(Action) to be found even if it has an Async as its suffix
+        builder.Services.AddMvcCore(opts =>
+        {
+            opts.SuppressAsyncSuffixInActionNames = false;
+        });
 
         builder.Services
             .AddApplication()

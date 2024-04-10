@@ -1,4 +1,5 @@
-﻿using CAWebProject.Api.Common.Controllers;
+﻿using Asp.Versioning;
+using CAWebProject.Api.Common.Controllers;
 using CAWebProject.Api.Example.V1.Models;
 using CAWebProject.Application.Features.Example.Commands;
 using CAWebProject.Application.Features.Example.Queries;
@@ -8,15 +9,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace CAWebProject.Api.Example.V1;
 
 [ApiController]
+[ControllerName("Example")]
 [Route("v{version:apiVersion}/examples")]
 [Produces("application/json")]
 [ApiVersion("1.0")]
-
 public class ExampleController(ISender mediator, ILogger<ExampleController> logger) : BaseController
 {
     private readonly ExampleMapper _mapper = new();
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id:guid}", Name = nameof(GetExampleByIdAsync))]
     public async Task<IActionResult> GetExampleByIdAsync(Guid id)
     {
         var result = await mediator.Send(new GetExampleQuery { Id = id });
@@ -34,7 +35,7 @@ public class ExampleController(ISender mediator, ILogger<ExampleController> logg
     public async Task<IActionResult> CreateExampleAsync(CreateExampleRequest req)
     {
         var result = await mediator.Send(_mapper.ToCommand(req));
-
+        
         return result.IsSuccess
             ? CreatedAtRoute(
                 nameof(GetExampleByIdAsync),
