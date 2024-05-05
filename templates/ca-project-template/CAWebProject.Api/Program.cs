@@ -1,4 +1,5 @@
 using CAWebProject.Api;
+using CAWebProject.Api.Common.BuilderExtentions;
 using CAWebProject.Api.Swagger;
 using CAWebProject.Application;
 using CAWebProject.Application.Middleware;
@@ -21,24 +22,8 @@ try
 
     var builder = WebApplication.CreateBuilder(args);
     {
-        //don't expose tech stack details to clients
-        builder.WebHost.UseKestrel(opts =>
-        {
-            opts.AddServerHeader = false;
-        });
-        
-        builder.Host.UseSerilog((ctx, services, loggerConfig) =>
-            loggerConfig
-                .ReadFrom.Configuration(ctx.Configuration)
-                .ReadFrom.Services(services)
-                .Enrich.FromLogContext()
-        );
-
-        // allow nameof(Action) to be found even if it has an Async as its suffix
-        builder.Services.AddMvcCore(opts =>
-        {
-            opts.SuppressAsyncSuffixInActionNames = false;
-        });
+        builder.ConfigureHost();
+        builder.ConfigureLogging();
 
         builder.Services
             .AddApplication()
@@ -51,6 +36,9 @@ try
 
     var app = builder.Build();
     {
+        app.UseHttpsRedirection();
+        app.UseLogTraceIdEnricher();
+        
         if (app.Configuration.GetValue<bool>("Serilog:UseRequestLogging"))
         {
             app.UseSerilogRequestLogging(cfg =>
@@ -60,9 +48,6 @@ try
             });
         }
 
-        app.UseHttpsRedirection();
-        app.UseLogTraceIdEnricher();
-        
         if (app.Environment.IsDevelopment())
         {
             app.UseSwaggerDocumentation();

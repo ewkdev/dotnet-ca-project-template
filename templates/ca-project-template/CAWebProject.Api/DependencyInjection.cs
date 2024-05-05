@@ -6,7 +6,11 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddPresentation(this IServiceCollection services)
     {
-        services.AddControllers();
+        // allow nameof(Action) to be found even if it has an Async as its suffix
+        services.AddControllers(opts =>
+        {
+            opts.SuppressAsyncSuffixInActionNames = false;
+        });
         
         services.AddApiVersioning(options =>
         {
